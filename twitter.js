@@ -1,8 +1,9 @@
 let tweetsElement = document.getElementById("tweets");
+let newTweetHandleElement = document.getElementById("newTweetHandle");
 let newTweetTextElement = document.getElementById("newTweetText");
 let submitTweetButton = document.getElementById("submitTweet");
 
-function addNewTweet(tweetHandle, tweetText) {
+function addNewTweetFromHandle(tweetHandle, tweetText) {
   let newHandleElement = document.createElement("p");
   newHandleElement.classList.add("handle");
   newHandleElement.innerText = tweetHandle + ":";
@@ -14,7 +15,9 @@ function addNewTweet(tweetHandle, tweetText) {
 }
 
 submitTweetButton.onclick = function() {
-  addNewTweet(newTweetTextElement.value);
+  addNewTweetFromHandle(
+    newTweetHandleElement.value,
+    newTweetTextElement.value);
 };
 
 // Enable pusher logging - don't include this in production
@@ -27,5 +30,5 @@ var pusher = new Pusher('2829cd349660dac0cd79', {
 
 var channel = pusher.subscribe('my-channel');
 channel.bind('my-event', function(data) {
-  addNewTweet(data.name, data.message);
+  addNewTweetFromHandle(data.name, data.message);
 });
